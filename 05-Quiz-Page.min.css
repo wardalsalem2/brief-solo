@@ -6,11 +6,7 @@
   --secondary-color: #f0f0f0;
   --text-color: #333;
   --hover-color: #e0e0e0;
-  --light-green: #d4edda;
-  --light-red: #f8d7da;
-  --progress-bar-width: 300px;
-  --progress-bar-height: 300px;
-  --error-color: #ff0000;
+  --selection-color: #ffcc00; /* New selection color */
 }
 
 body {
@@ -51,7 +47,7 @@ nav button {
   font-weight: bold;
   font-size: x-large;
   margin: 0 auto;
-  padding-left: 50px;
+  /* padding-left: 50px; */
 }
 
 .nav-right {
@@ -59,7 +55,7 @@ nav button {
   justify-content: flex-end;
   align-items: center;
   width: auto;
-  padding-right: 30px;
+  padding-right: 21px;
   position: relative;
 }
 
@@ -81,6 +77,7 @@ nav button {
   display: none;
   position: absolute;
   top: 50px;
+  /* right: 0; */
   background-color: white;
   border: 1px solid var(--text-color);
   border-radius: 5px;
@@ -137,15 +134,6 @@ nav button {
   display: none;
 }
 
-@media (max-width: 1024px) {
-  #msg-1 {
-    font-size: xx-large;
-  }
-  #msg-2 {
-    font-size: x-large;
-  }
-}
-
 @media (max-width: 768px) {
   #username {
     display: none;
@@ -156,7 +144,7 @@ nav button {
     justify-content: flex-end;
     align-items: center;
     width: auto;
-    padding-right: 30px;
+    padding-right: 21px;
     position: relative;
   }
 
@@ -177,48 +165,102 @@ nav button {
 
 /* ################ */
 /* specificspecific */
-#result-main {
+#quiz-main {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 60px; /* Adjust for fixed navbar height */
 }
 
-#result-section {
+#quiz-section {
   width: 80%;
   margin-top: 40px;
   text-align: center;
 }
 
-.result-container {
-  background-color: var(--light-green);
-  padding: 40px;
+.quiz-container {
+  background-color: var(--secondary-color);
+  padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 50vh;
+  position: relative;
 }
 
-.left-half {
-  width: 50%;
-}
-
-.left-half h1 {
-  font-size: 2.5rem;
-  color: var(--text-color);
+.question-container {
   margin-bottom: 20px;
 }
 
-.left-half p {
+.question-number {
   font-size: 1.5rem;
   color: var(--text-color);
-  margin-bottom: 20px;
 }
 
-#view-answers-btn,
-#new-quiz-btn {
+.question-text {
+  font-size: 1.2rem;
+  color: var(--text-color);
+  margin-bottom: 30px;
+}
+
+.answers-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.answer-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background-color 0.3s, border-color 0.3s;
+  width: 100%; /* Ensure all options have the same width */
+}
+
+.answer-option input {
+  display: none;
+}
+
+.answer-option:hover {
+  background-color: var(--hover-color);
+  border-color: var(--primary-color);
+}
+
+.answer-option input:checked + .answer-circle,
+.answer-option input:checked + .answer-circle + .answer-text {
+  background-color: var(--nav-bar-color);
+  border: 2px solid black;
+}
+
+.answer-option input:checked + .answer-circle {
+  background-color: var(--nav-bar-color); /* Change selection color */
+}
+
+.answer-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.answer-text {
+  font-size: 1rem;
+  color: var(--text-color);
+  padding: 5px 10px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  flex-grow: 1;
+}
+
+#next-btn {
   background-color: var(--primary-color);
   border: none;
   color: white;
@@ -226,96 +268,68 @@ nav button {
   font-size: 1rem;
   cursor: pointer;
   border-radius: 5px;
-  margin-top: 20px;
-  width: 150px;
-}
-
-#new-quiz-btn {
-  background-color: var(--nav-bar-color);
-  color: black;
-}
-
-.right-half {
-  width: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* --------------------- */
-.circular-progress {
-  width: var(--progress-bar-width);
-  height: var(--progress-bar-height);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #cc1a1a5c;
-  position: relative;
-}
-
-.inner-circle {
   position: absolute;
-  width: calc(var(--progress-bar-width) - 30px);
-  height: calc(var(--progress-bar-height) - 30px);
-  border-radius: 50%;
-  background-color: rgba(128, 128, 128, 0.5);
+  bottom: 20px;
+  right: 20px;
 }
 
-.percentage {
-  position: relative;
-  font-size: 2rem;
-  color: rgb(0, 0, 0, 0.8);
+.timer-icon {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-size: 24px;
+  cursor: pointer;
 }
 
-@media (max-width: 900px) {
-  .left-half,
-  .right-half {
-    width: 100%;
-    text-align: center;
+.timer-box {
+  display: none;
+  position: absolute;
+  bottom: 20px;
+  left: 60px;
+  background-color: var(--secondary-color);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+@media (min-width: 769px) {
+  .quiz-container {
+    max-width: 70%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  #quiz-section {
+    min-width: fit-content;
+    padding: 20px;
   }
 
-  .left-half h1 {
-    font-size: 1.5rem;
+  .quiz-container {
+    padding: 10px;
   }
 
-  .left-half p {
+  .question-number {
     font-size: 1.2rem;
   }
-  .progress-circle {
-    width: 100px;
-    height: 100px;
-    border-width: 8px;
-    margin-top: 20px;
-  }
-  .progress-circle .percentage {
-    font-size: 1.3rem;
-  }
-}
 
-@media (max-width: 920px) {
-  #result-section {
-    width: 88%;
+  .question-text {
+    font-size: 1rem;
   }
 
-  .result-container {
-    padding: 20px;
+  .answers-container {
+    display: flex;
     flex-direction: column;
-    height: auto;
+    align-items: center;
+    margin-bottom: 70px;
   }
 
-  #view-answers-btn,
-  #new-quiz-btn {
-    width: 70%;
-    margin-left: 0;
-    margin-bottom: 10px;
+  .answer-text {
+    font-size: 0.9rem;
   }
-
-  .circular-progress {
-    margin-top: 50px;
-  }
-
-  #result-main {
-    margin-top: 30px;
+  #next-btn {
+    font-size: 0.9rem;
+    padding: 8px 16px;
   }
 }
